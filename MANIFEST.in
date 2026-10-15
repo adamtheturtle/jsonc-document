@@ -1,0 +1,6 @@
+include *.py
+include *.toml
+recursive-include tests *.py *.json *.jsonc *.js *.txt *.md *.errorSpec *.editorconfig
+recursive-include docs *.rst *.md
+recursive-include styles/snapper *.yml
+include tests/conformance/LICENSE

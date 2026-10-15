@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.coverage*
+.pytest_cache/
+.hypothesis/
+.mypy_cache/
+.pyrefly_cache/
+build/
+dist/
+docs/build/
+styles/*
+!styles/snapper/
+.DS_Store
+uv.lock

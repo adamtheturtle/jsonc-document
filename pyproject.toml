@@ -1,0 +1,282 @@
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = [ "setuptools", "setuptools-scm>=8.1.0" ]
+
+[project]
+name = "jsonc-document"
+description = "Typed JSONC parsing with preserved comments, tokens, and source spans."
+readme.content-type = "text/x-rst"
+readme.file = "README.rst"
+keywords = [ "comments", "jsonc", "parser" ]
+license = "MIT"
+authors = [ { name = "Adam Dangoor", email = "adamdangoor@gmail.com" } ]
+requires-python = ">=3.12"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: 3.15",
+]
+dynamic = [ "version" ]
+dependencies = []
+urls.Documentation = "https://adamtheturtle.github.io/jsonc-document/"
+urls.Source = "https://github.com/adamtheturtle/jsonc-document"
+
+[dependency-groups]
+dev = [
+    "actionlint-py==1.7.12.25",
+    "beartype==0.23.1",
+    "check-manifest==0.51",
+    "deptry==0.25.1",
+    "doc8==2.0.0",
+    "doccmd==2026.9.16.1",
+    "furo==2025.12.19",
+    "hypothesis==6.169.4",
+    "interrogate==1.7.0",
+    "mypy==2.4.0",
+    "mypy-pytest-parametrize==2026.10.5.1",
+    "mypy-strict-kwargs==2026.10.9",
+    "myst-parser==5.1.0",
+    "no-defaults==2026.9.1",
+    "prek==0.5.5",
+    "pydocstringformatter==1.0.0",
+    "pylint[spelling]==4.1.3",
+    "pylint-per-file-ignores==4.0.0",
+    "pyproject-fmt==2.30.3",
+    "pyrefly==1.3.2",
+    "pyright==1.1.414",
+    "pyroma==5.0.1",
+    "pytest==9.1.1",
+    "pytest-beartype==0.3.0",
+    "pytest-cov==7.1.0",
+    "pytest-xdist==3.8.0",
+    "ruff==0.17.0",
+    "shellcheck-py==0.11.0.1",
+    "shfmt-py==4.2.0",
+    "snapper-fmt==0.11.10",
+    "sphinx==9.1.0",
+    "sphinx-copybutton==0.5.2",
+    "sphinx-lint==1.0.2",
+    "sphinx-pyproject==0.3.0",
+    "sphinxcontrib-spelling==8.0.2",
+    "strict-kwargs==2026.10.9",
+    "towncrier==26.9.0",
+    "ty==0.0.86",
+    "vale==3.22.0.0",
+    "vulture==2.16",
+    "yamlfix==1.19.1",
+    "zizmor==1.30.1",
+]
+release = [ "check-wheel-contents==0.6.3", "towncrier==26.9.0" ]
+
+[tool.setuptools]
+packages.find.where = [ "src" ]
+package-data.jsonc_document = [ "py.typed" ]
+zip-safe = false
+
+[tool.setuptools_scm]
+version_scheme = "post-release"
+
+[tool.uv]
+required-version = "==0.13.0"
+
+[tool.ruff]
+line-length = 79
+lint.select = [ "ALL" ]
+lint.extend-select = [ "ANN", "PGH003", "PYI" ]
+lint.ignore = [ "COM812", "CPY001", "D205", "D212", "ISC001", "PLR0913" ]
+lint.explicit-preview-rules = true
+lint.per-file-ignores."doccmd_*.py" = [ "D200", "ERA001", "S101", "T201" ]
+lint.per-file-ignores."tests/**/test_*.py" = [ "S101" ]
+lint.per-file-ignores."tests/test_*.py" = [ "S101" ]
+lint.unfixable = [ "ERA001" ]
+lint.external = [ "NOD" ]
+lint.flake8-tidy-imports.banned-api."operator.attrgetter".msg = """\
+    operator.attrgetter is banned: use an explicitly typed callable instead.\
+    """
+lint.flake8-tidy-imports.banned-api."typing.cast".msg = """\
+    typing.cast is banned: use explicit type narrowing or a typed variable instead.\
+    """
+lint.flake8-type-checking.runtime-evaluated-base-classes = [ "pydantic.BaseModel" ]
+lint.flake8-type-checking.runtime-evaluated-decorators = [ "beartype.beartype" ]
+lint.pydocstyle.convention = "google"
+lint.preview = true
+
+[tool.pylint]
+DEPRECATED_BUILTINS.bad-functions = [ "filter", "getattr", "hasattr", "map", "setattr" ]
+FORMAT.single-line-if-stmt = false
+MAIN.fail-on = [ "useless-suppression" ]
+MASTER.jobs = 0
+MASTER.load-plugins = [
+    "pylint.extensions.bad_builtin",
+    "pylint.extensions.comparison_placement",
+    "pylint.extensions.consider_refactoring_into_while_condition",
+    "pylint.extensions.docparams",
+    "pylint.extensions.dunder",
+    "pylint.extensions.eq_without_hash",
+    "pylint.extensions.for_any_all",
+    "pylint.extensions.mccabe",
+    "pylint.extensions.no_self_use",
+    "pylint.extensions.overlapping_exceptions",
+    "pylint.extensions.private_import",
+    "pylint.extensions.redefined_loop_name",
+    "pylint.extensions.redefined_variable_type",
+    "pylint.extensions.set_membership",
+    "pylint.extensions.typing",
+    "pylint_per_file_ignores",
+]
+MASTER.persistent = true
+MASTER.unsafe-load-any-extension = false
+MESSAGES-CONTROL.disable = [
+    "duplicate-code",
+    "line-too-long",
+    "locally-disabled",
+    "missing-return-type-doc",
+    "missing-type-doc",
+    "too-few-public-methods",
+    "too-many-arguments",
+    "too-many-instance-attributes",
+    "too-many-lines",
+    "too-many-locals",
+    "too-many-public-methods",
+    "too-many-return-statements",
+    "too-many-statements",
+    "ungrouped-imports",
+    "unused-import",
+    "wrong-import-order",
+]
+MESSAGES-CONTROL.enable = [
+    "bad-inline-option",
+    "deprecated-pragma",
+    "file-ignored",
+    "spelling",
+    "use-symbolic-message-instead",
+    "useless-suppression",
+]
+MESSAGES-CONTROL.per-file-ignores = [
+    "docs/source/conf.py:invalid-name",
+    "docs/source/doccmd_*.py:invalid-name",
+    "docs/source/doccmd_*/*.py:invalid-name",
+    "doccmd_README_rst_*.py:invalid-name",
+    "doccmd_*/*.py:invalid-name",
+]
+SPELLING.spelling-dict = "en_US"
+SPELLING.spelling-private-dict-file = "spelling_private_dict.txt"
+SPELLING.spelling-store-unknown-words = "no"
+
+[tool.interrogate]
+fail-under = 100
+ignore-overloaded-functions = true
+verbose = 2
+omit-covered-files = true
+
+[tool.check-manifest]
+ignore = [
+    ".git_archival.txt",
+    ".github",
+    ".github/**",
+    ".python-version",
+    ".vale.ini",
+    "CODE_OF_CONDUCT.rst",
+    "CONTRIBUTING.rst",
+    "docs",
+    "docs/**",
+    "newsfragments",
+    "newsfragments/**",
+    "prek.toml",
+    "spelling_private_dict.txt",
+    "uv.lock",
+]
+
+[tool.vulture]
+exclude = [ ".venv", "build", "doccmd_", "docs/build" ]
+ignore_names = [ "author", "extensions", "html_theme", "linkcheck_retries", "nitpicky", "spelling_word_list_filename" ]
+min_confidence = 80
+
+[tool.pyproject-fmt]
+indent = 4
+keep_full_version = true
+max_supported_python = "3.15"
+
+[tool.mypy]
+files = [ "." ]
+exclude = [ "build" ]
+exclude_gitignore = true
+follow_untyped_imports = true
+strict = true
+plugins = [ "mypy_pytest_parametrize", "mypy_strict_kwargs" ]
+show_traceback = true
+num_workers = "auto"
+
+[tool.pyrefly]
+project-excludes = [ "build" ]
+search_path = [ ".", "src" ]
+errors.non-exhaustive-match = "error"
+disable-project-excludes-heuristics = true
+enabled-ignores = [ "pyrefly" ]
+preset = "all"
+
+[tool.pyright]
+typeCheckingMode = "strict"
+exclude = [ "**/.claude", "**/.venv", "**/venv" ]
+enableTypeIgnoreComments = false
+reportUnnecessaryTypeIgnoreComment = true
+
+[tool.ty]
+rules.all = "error"
+terminal.error-on-warning = true
+analysis.respect-type-ignore-comments = false
+analysis.strict-equality-semantics = true
+analysis.strict-generic-narrowing = true
+
+[tool.pytest]
+addopts = [ "--strict-config", "--strict-markers" ]
+beartype_packages = [ "jsonc_document" ]
+beartype_test_fixtures = true
+beartype_tests = true
+log_cli = true
+xfail_strict = true
+
+[tool.coverage]
+run.source = [ "src/", "tests" ]
+run.branch = true
+report.fail_under = 100
+report.exclude_also = [ "if TYPE_CHECKING:" ]
+report.show_missing = true
+
+[tool.towncrier]
+directory = "newsfragments"
+filename = "docs/source/changelog/{version}.md"
+title_format = "# {version} ({project_date})"
+issue_format = "[#{issue}](https://github.com/adamtheturtle/jsonc-document/issues/{issue})"
+single_file = false
+ignore = [ ".gitkeep" ]
+type = [ { directory = "change", name = "Changes", showcontent = true } ]
+
+[tool.doc8]
+max_line_length = 2000
+ignore_path = [
+    "./.eggs",
+    "./docs/build",
+    "./docs/build/spelling/output.txt",
+    "./node_modules",
+    "./src/*.egg-info/",
+    "./src/*/_setuptools_scm_version.txt",
+]
+
+[tool.pydocstringformatter]
+write = true
+split-summary-body = false
+max-line-length = 75
+linewrap-full-docstring = true
+
+[tool.yamlfix]
+section_whitelines = 1
+whitelines = 1
+
+[tool.no_defaults]
+private_only = true
+per_file_enforcement."scripts/**" = "all"
+per_file_enforcement."tests/**" = "all"

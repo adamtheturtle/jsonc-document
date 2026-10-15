@@ -1,0 +1,34 @@
+---
+name: Deploy documentation
+
+on:
+  push:
+    branches: [main]
+  pull_request: {}
+
+# We often have a long CI queue, so cancel superseded runs for a PR as soon
+# as a new commit is pushed. Non-PR runs (push on main) fall back to the
+# unique run ID so they never cancel each other.
+concurrency:
+  group: deploy-docs-pr-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  pages:
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ github.ref_name == 'main' && 'github-pages' || 'development' }}
+      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      pages: write
+      id-token: write
+    steps:
+      - id: deployment
+        uses: sphinx-notes/pages@39eda6fbd411e7cee6e814ef84a69bd806346e92  # v3
+        with:
+          documentation_path: docs/source
+          pyproject_group: dev
+          python_version: '3.13'
+          sphinx_build_options: -W
+          publish: ${{ github.ref_name == 'main' }}
+          enablement: ${{ github.ref_name == 'main' }}

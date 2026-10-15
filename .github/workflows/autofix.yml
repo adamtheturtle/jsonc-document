@@ -1,0 +1,40 @@
+---
+name: autofix.ci
+
+on:
+  pull_request: {}
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  autofix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+          persist-credentials: false
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884  # v10.3.0
+
+      - name: Run fixers
+        uses: j178/prek-action@1382ad72dea72f9d53832f2bcb65b3e87a947204  # v3.0.1
+        with:
+          # Matches the ``prek`` pin in ``pyproject.toml``; keep them in
+          # sync. prek reimplements the ``pre-commit-hooks`` checks
+          # natively, so a version difference changes their verdicts and
+          # not merely their scheduling (issue 4013).
+          prek-version: 0.5.5
+          extra-args: >-
+            --all-files --hook-stage pre-commit --no-fail-fast --verbose
+        env:
+          UV_NO_CACHE: '1'
+          UV_PYTHON: 3.14
+
+      - uses: autofix-ci/action@c5b2d67aa2274e7b5a18224e8171550871fc7e4a  # v1.3.4
+        if: always()

@@ -1,0 +1,22 @@
+JSONTestSuite: https://github.com/nst/JSONTestSuite
+Commit: 1ef36fa01286573e846ac449e8683f8833c5b26a
+License: MIT (see LICENSE).
+Includes y_ and n_ parsing cases with UTF-8 source.
+Implementation-defined i_ cases are not included.
+The API accepts str, so byte-encoding rejection is outside its scope.
+Excluded invalid UTF-8 inputs:
+n_array_a_invalid_utf8.json
+n_array_invalid_utf8.json
+n_number_invalid-utf-8-in-bigger-int.json
+n_number_invalid-utf-8-in-exponent.json
+n_number_invalid-utf-8-in-int.json
+n_number_real_with_invalid_utf8_after_e.json
+n_object_lone_continuation_byte_in_key_and_trailing_comma.json
+n_string_invalid-utf-8-in-escape.json
+n_string_invalid_utf8_after_escape.json
+n_structure_incomplete_UTF8_BOM.json
+n_structure_lone-invalid-utf-8.json
+n_structure_single_eacute.json
+
+JSONC deliberately accepts the three valid comment cases marked n_.
+The two y_object_duplicated_key cases are rejected by the data policy.
